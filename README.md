@@ -83,8 +83,67 @@ These tests validate API behavior and service interactions.
 
 Each service is containerized using Docker.
 
-Example:
 
-```bash
+## 🐳 Running the Entire System (Docker Compose)
+
+This project supports running all microservices using Docker Compose.
+
+---
+
+### 📌 Prerequisites
+
+- Docker installed
+- Docker Compose installed
+
+---
+
+### ⚙️ Step 1: Build all services
+
+Run inside each service directory:
+
+docker build -t auth-service .
 docker build -t patient-service .
-docker run -d -p 4000:4000 patient-service
+docker build -t billing-service .
+docker build -t analytics-service .
+docker build -t api-gateway .
+
+
+### ▶️ Step 2: Start all services
+
+docker-compose up -d
+
+### ▶️ Step 3: Verify running containers
+
+docker ps -a
+
+You should see containers for:
+
+api-gateway
+auth-service
+patient-service
+billing-service
+analytics-service
+kafka
+patient-service-db
+auth-service-db
+
+### Step 4: Stop and remove all container
+
+docker-compose down
+
+-----------------------------------------------------------------------
+## 📄 API Documentation (Swagger / OpenAPI)
+
+API documentation for services is available via the API Gateway.
+
+---
+### 🔹 Patient Service API Docs
+http://localhost:4004/api-docs/patients
+---
+### 🔹 Auth Service API Docs
+http://localhost:4004/api-docs/auth
+---
+### 🧠 Notes
+- API docs are exposed through the **API Gateway**
+- Underlying services expose `/v3/api-docs`
+- Gateway rewrites paths for unified access
